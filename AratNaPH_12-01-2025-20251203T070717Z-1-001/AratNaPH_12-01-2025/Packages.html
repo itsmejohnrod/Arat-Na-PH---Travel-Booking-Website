@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tour Packages & Deals</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f7fa;
+        color: #333;
+    }
+
+    /* Consistent Header Styles */
+    header {
+        background: #d9eaf1;
+        padding: 10px 40px;
+        height: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .logo img {
+        height: 60px; /* Normalized logo size */
+        width: auto;
+        display: block;
+    }
+
+    header nav a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+        padding: 6px 12px;
+        border-radius: 20px;
+    }
+    
+    header nav a:hover {
+        background: #e0e0e0;
+    }
+
+    header nav a.active {
+        background: white; /* Active link style */
+        color: #000;
+    }
+    
+    .auth-links a {
+        margin-left: 20px;
+        text-decoration: none;
+        font-weight: bold;
+        color: #000;
+    }
+
+    .auth-links a:hover {
+        text-decoration: underline;
+    }
+    /* End Header Styles */
+
+    /* Package Page Specific Styles */
+    .title {
+        text-align: center;
+        font-size: 36px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+    
+    .search-filter {
+        max-width: 1200px;
+        margin: 0 auto 30px auto;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .search-filter select {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+        flex: 1;
+        min-width: 150px;
+    }
+    
+    .search-filter button {
+        padding: 10px 20px;
+        border: none;
+        background: #007BFF;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .grid {
+        max-width: 1200px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for packages */
+        gap: 30px;
+        padding: 0 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .info {
+        padding: 15px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .info h3 {
+        margin: 0;
+        font-size: 20px;
+        color: #007BFF;
+        margin-bottom: 5px;
+    }
+
+    /* Style the clickable title */
+    .info h3 a {
+        color: inherit;
+        text-decoration: none;
+    }
+    .info h3 a:hover {
+        text-decoration: underline;
+    }
+
+    .info p {
+        font-size: 14px;
+        color: #444;
+        line-height: 1.4;
+        margin-bottom: 10px;
+    }
+    
+    .details {
+        font-size: 13px;
+        color: #555;
+        margin-bottom: 15px;
+    }
+    .details i {
+        margin-right: 5px;
+        color: #007BFF;
+    }
+
+    .booking-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding-top: 10px;
+        border-top: 1px solid #eee;
+    }
+    .price {
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+    }
+    .info button {
+        padding: 8px 15px;
+        border-radius: 6px;
+        border: none;
+        background: #007BFF;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    .info button:hover {
+        background: #0056b3;
+    }
+
+    /* Filter Responsiveness */
+    @media (max-width: 600px) {
+        .search-filter {
+            flex-direction: column;
+        }
+        .search-filter select {
+            min-width: 100%;
+        }
+    }
+    /* End Package Page Specific Styles */
+
+    /* Consistent Footer Styles */
+    footer {
+        background: #d9eaf1;
+        padding: 40px 20px;
+        margin-top: 60px;
+    }
+    .footer-grid {
+        max-width: 1200px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+    footer h4 { margin-bottom: 10px; }
+    footer a { 
+        display: block;
+        margin: 6px 0;
+        text-decoration: none;
+        color: #333;
+    }
+    footer a:hover {
+        text-decoration: underline;
+    }
+    /* End Footer Styles */
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (max-width: 600px) {
+        .grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+<body>
+<header>
+    <a href="Homepage.html" class="logo">
+        <img src="images/Logo.png" alt="AratNaPH Logo">
+    </a>
+    <nav>
+        <a href="Destination.html">Destinations</a>
+        <a href="Hotel.html">Hotels</a>
+        <a href="Packages.html" class="active">Packages</a>
+        <a href="About Us.html">About Us</a>
+        <a href="Contact.html">Contact</a>
+    </nav>
+    <div class="auth-links">
+        <a href="Sign In.html">Sign In</a> | <a href="Book Now.html">Book Now</a>
+    </div>
+</header>
+
+<h1 class="title">Exclusive Tour Packages & Deals</h1>
+
+<div class="search-filter">
+    <select id="destination-filter" onchange="filterPackages()">
+        <option value="all">All Destinations</option>
+        <option value="elnido">El Nido</option>
+        <option value="boracay">Boracay</option>
+        <option value="bohol">Bohol</option>
+        <option value="cebu">Cebu</option>
+        <option value="baguio">Baguio</option>
+        <option value="manila">Manila</option>
+    </select>
+    
+    <select id="price-filter" onchange="filterPackages()">
+        <option value="all">All Prices</option>
+        <option value="under10k">Under ₱10,000</option>
+        <option value="over10k">₱10,000 and Up</option>
+    </select>
+
+    <button onclick="filterPackages()">Search Packages</button>
+</div>
+
+<div class="grid" id="package-grid">
+
+    <div class="card" data-price="12000" data-destination="elnido">
+        <img src="images/elnido-tour.jpg" alt="El Nido Tour">
+        <div class="info">
+            <h3><a href="tour-detail-elnido.html">Ultimate El Nido Island Hopping</a></h3>
+            <p>Experience the stunning lagoons, hidden beaches, and towering limestone cliffs of Palawan.</p>
+            <div class="details">
+                <i class="fas fa-clock"></i> 4 Days, 3 Nights
+            </div>
+            <div class="details">
+                <i class="fas fa-ship"></i> Tours A & C Included
+            </div>
+            <div class="booking-bar">
+                <div class="price">₱12,800</div>
+                <button onclick="window.location.href='tour-detail-elnido.html'">View Details</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" data-price="9500" data-destination="boracay">
+        <img src="images/boracay-tour.jpg" alt="Boracay Tour">
+        <div class="info">
+             <h3><a href="tour-detail-boracay.html">Boracay Beach & Water Sports Fun</a></h3>
+            <p>Enjoy the famous white-sand beach and try out exciting water activities.</p>
+            <div class="details">
+                <i class="fas fa-clock"></i> 3 Days, 2 Nights
+            </div>
+            <div class="details">
+                <i class="fas fa-umbrella-beach"></i> Helmet Diving Included
+            </div>
+            <div class="booking-bar">
+                <div class="price">₱9,500</div>
+                <button onclick="window.location.href='tour-detail-boracay.html'">View Details</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" data-price="14500" data-destination="bohol">
+        <img src="images/bohol-tour.jpg" alt="Bohol Tour">
+        <div class="info">
+             <h3><a href="tour-detail-bohol.html">Bohol Nature & Culture Explorer</a></h3>
+            <p>See the unique Chocolate Hills, encounter tiny Tarsiers, and cruise the Loboc River.</p>
+            <div class="details">
+                <i class="fas fa-clock"></i> 4 Days, 3 Nights
+            </div>
+            <div class="details">
+                <i class="fas fa-mountain"></i> Countryside Tour Included
+            </div>
+            <div class="booking-bar">
+                <div class="price">₱14,500</div>
+                <button onclick="window.location.href='tour-detail-bohol.html'">View Details</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" data-price="16500" data-destination="cebu">
+        <img src="images/cebu-tour.jpg" alt="Cebu Tour">
+        <div class="info">
+             <h3><a href="tour-detail-cebu.html">Cebu City & South Adventure</a></h3>
+            <p>Explore the historic sites of the city and head south for canyoneering and snorkeling.</p>
+            <div class="details">
+                <i class="fas fa-clock"></i> 4 Days, 3 Nights
+            </div>
+            <div class="details">
+                <i class="fas fa-water"></i> Canyoneering & Oslob Included
+            </div>
+            <div class="booking-bar">
+                <div class="price">₱16,500</div>
+                <button onclick="window.location.href='tour-detail-cebu.html'">View Details</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" data-price="8900" data-destination="baguio">
+        <img src="images/baguio-tour.jpg" alt="Baguio Tour">
+        <div class="info">
+             <h3><a href="tour-detail-baguio.html">Baguio Cool Escapes</a></h3>
+            <p>Relax in the City of Pines. Perfect for family outings and enjoying the cool mountain climate.</p>
+            <div class="details">
+                <i class="fas fa-clock"></i> 3 Days, 2 Nights
+            </div>
+            <div class="details">
+                <i class="fas fa-tree"></i> City Tour & Strawberry Picking
+            </div>
+            <div class="booking-bar">
+                <div class="price">₱8,900</div>
+                <button onclick="window.location.href='tour-detail-baguio.html'">View Details</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" data-price="11200" data-destination="manila">
+        <img src="images/manila-tour.jpg" alt="Manila Tour">
+        <div class="info">
+             <h3><a href="tour-detail-manila-historical.html">Manila Heritage Trail</a></h3>
+            <p>A deep dive into the nation's history, exploring Intramuros and historic churches.</p>
+            <div class="details">
+                <i class="fas fa-clock"></i> 3 Days, 2 Nights
+            </div>
+            <div class="details">
+                <i class="fas fa-archway"></i> Intramuros Tour & Binondo Food Trip
+            </div>
+            <div class="booking-bar">
+                <div class="price">₱11,200</div>
+                <button onclick="window.location.href='tour-detail-manila-historical.html'">View Details</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-grid">
+        <div>
+            <strong>AratNaPH</strong>
+            <p>Your trusted partner for discovering the beauty of the Philippines.</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <a href="Destination.html">Destinations</a>
+            <a href="Hotel.html">Hotels</a>
+            <a href="Packages.html">Packages</a>
+            <a href="Book Now.html">Book Now</a>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="Contact.html">Contact Us</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+        </div>
+        <div>
+            <h4>Contact Info</h4>
+            <p>📍 Manila, Philippines</p>
+            <p>📞 +63 912 345 6789</p>
+            <p>📧 support@aratnaph.com</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // FIX: Function to filter packages based on price range
+    function filterPackages() {
+        const priceFilter = document.getElementById('price-filter').value;
+        const destinationFilter = document.getElementById('destination-filter').value;
+        const cards = document.querySelectorAll('.card');
+
+        cards.forEach(card => {
+            const price = parseInt(card.getAttribute('data-price'));
+            const destination = card.getAttribute('data-destination');
+            let showPrice = true;
+            let showDestination = true;
+
+            // Price Filtering Logic
+            if (priceFilter === 'under10k') {
+                showPrice = price < 10000;
+            } else if (priceFilter === 'over10k') {
+                showPrice = price >= 10000;
+            }
+
+            // Destination Filtering Logic
+            if (destinationFilter !== 'all') {
+                showDestination = destination === destinationFilter;
+            }
+
+            // Show or hide the card
+            if (showPrice && showDestination) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+    
+    // Run the filter on page load in case a query parameter set a filter
+    window.onload = filterPackages;
+</script>
+</body>
+</html>
